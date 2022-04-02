@@ -17,7 +17,6 @@ struct ContentView: View {
       #if os(iOS)
         UIViewProvider(viewProvider: { DummyUIView() })
         .padding()
-        .frame(minWidth: 300, idealWidth: 450, minHeight: 300, idealHeight: 600)
       #endif
     }
 }

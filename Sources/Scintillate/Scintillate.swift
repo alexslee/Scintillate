@@ -12,6 +12,8 @@ public struct Scintillate {
   public static var isOn = false
 
   public static func kickStart(in view: Scintillatable) {
+    (view as? ScintillateSwizzlerKebab)?.swizzle()
+
     let parsed = parse(view, apply: {
       $0.dull()
       $0.theShining()
@@ -22,6 +24,8 @@ public struct Scintillate {
   }
 
   public static func shutDown(in view: Scintillatable) {
+    (view as? ScintillateSwizzlerKebab)?.deswizzle()
+
     let parsed = parse(view, apply: { $0.dull() })
     os_log("shutDown parsed: %@", parsed)
 
@@ -29,7 +33,7 @@ public struct Scintillate {
   }
 
   @discardableResult
-  private static func parse(_ view: Scintillatable, apply: ((Scintillatable) -> Void)?) -> [Scintillatable] {
+  internal static func parse(_ view: Scintillatable, apply: ((Scintillatable) -> Void)?) -> [Scintillatable] {
     var newScintillatables = [Scintillatable]()
 
     for subScintillatable in view.subScintillables {

@@ -35,6 +35,8 @@ class DummyNSView: NSView {
   private lazy var stackView: NSStackView = {
     let stack = NSStackView()
     stack.orientation = .vertical
+    stack.distribution = .fill
+    stack.alignment = .width
     stack.spacing = 8
     stack.translatesAutoresizingMaskIntoConstraints = false
 
@@ -73,6 +75,7 @@ class DummyNSView: NSView {
     NSLayoutConstraint.activate([
       stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+      stackView.topAnchor.constraint(greaterThanOrEqualTo: button.bottomAnchor, constant: 8),
       stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
     ])
   }

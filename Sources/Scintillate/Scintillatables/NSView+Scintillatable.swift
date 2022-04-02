@@ -46,8 +46,9 @@ extension NSView: Scintillatable {
   }
 
   public func theShining() {
-    let shinyLayer = ShinyLayer(owner: self)
-    layer?.insertSublayer(shinyLayer.theMask, at: .max)
+    let newShinyLayer = ShinyLayer(owner: self)
+    currentShinyLayer = newShinyLayer
+    layer?.insertSublayer(newShinyLayer.theMask, at: .max)
   }
 
   public func dull() {
@@ -96,11 +97,23 @@ extension NSView {
 }
 
 extension NSColor {
-  convenience init(_ hex: UInt) {
-    self.init(
-      red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-      green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
-      blue: CGFloat(hex & 0x0000FF) / 255.0,
+  class func color(from hex: String) -> NSColor {
+    var colorString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    if colorString.hasPrefix("#") {
+      colorString.remove(at: colorString.startIndex)
+    }
+
+    if colorString.count != 6 {
+      return NSColor.gray
+    }
+
+    var rgbValue: UInt64 = 0
+    Scanner(string: colorString).scanHexInt64(&rgbValue)
+
+    return NSColor(
+      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
       alpha: CGFloat(1.0)
     )
   }

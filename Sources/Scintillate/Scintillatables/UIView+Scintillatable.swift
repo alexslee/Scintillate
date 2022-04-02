@@ -71,12 +71,13 @@ extension UIView: Scintillatable {
 
 extension UIView {
   var scintillatingBounds: CGRect {
-    if let stackView = superview as? UIStackView {
-      var origin: CGPoint = .zero
-      origin.x = (stackView.alignment == .trailing) ? scintillatingWidth : 0
-      return CGRect(origin: origin, size: scintillatingSize)
+    if let alignment = (superview as? UIStackView)?.alignment {
+      var newOrigin = CGPoint.zero
+      newOrigin.x = (alignment == .trailing) ? scintillatingWidth : 0
+      return CGRect(origin: newOrigin, size: scintillatingSize)
+    } else {
+      return CGRect(origin: .zero, size: scintillatingSize)
     }
-    return CGRect(origin: .zero, size: scintillatingSize)
   }
 
   private var scintillatingSize: CGSize {
@@ -100,11 +101,23 @@ extension UIView {
 }
 
 extension UIColor {
-  convenience init(_ hex: UInt) {
-    self.init(
-      red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-      green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
-      blue: CGFloat(hex & 0x0000FF) / 255.0,
+  class func color(from hex: String) -> UIColor {
+    var colorString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    if colorString.hasPrefix("#") {
+      colorString.remove(at: colorString.startIndex)
+    }
+
+    if colorString.count != 6 {
+      return UIColor.gray
+    }
+
+    var rgbValue: UInt64 = 0
+    Scanner(string: colorString).scanHexInt64(&rgbValue)
+
+    return UIColor(
+      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
       alpha: CGFloat(1.0)
     )
   }
