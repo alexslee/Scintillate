@@ -30,7 +30,7 @@ struct ShinyLayer {
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
-    theMask.backgroundColor = UIColor.color(from: "#1c2325").cgColor
+    theMask.backgroundColor = UIColor.defaultShine.cgColor
   }
 
   func updateLayout() {
@@ -49,7 +49,7 @@ struct ShinyLayer {
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
-    theMask.backgroundColor = NSColor.color(from: "#1c2325").cgColor
+    theMask.backgroundColor = NSColor.defaultShine.cgColor
   }
 
   func updateLayout() {

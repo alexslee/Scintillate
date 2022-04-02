@@ -14,7 +14,7 @@ class PainfulNSImageView: NSImageView {
   override var image: NSImage? {
     set {
       self.layer = CALayer()
-      self.layer?.contentsGravity = .resizeAspect
+      self.layer?.contentsGravity = .resize
       self.layer?.contents = newValue
       self.wantsLayer = true
 
@@ -50,13 +50,17 @@ class DummyNSView: NSView {
 
     let label = NSTextField(labelWithString: "HELLO THERE")
     label.font = .systemFont(ofSize: 24, weight: .bold)
+    label.alignment = .left
     label.setContentCompressionResistancePriority(.required, for: .vertical)
-    label.setContentHuggingPriority(.required, for: .vertical)
+    label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
     let imageView = PainfulNSImageView(
       image: NSImage(systemSymbolName: "hands.clap.fill", accessibilityDescription: nil)!)
     imageView.setContentCompressionResistancePriority(.required, for: .vertical)
-    imageView.setContentHuggingPriority(.required, for: .vertical)
+    imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+    imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    imageView.translatesAutoresizingMaskIntoConstraints = false
 
     button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -64,6 +68,8 @@ class DummyNSView: NSView {
     addSubview(stackView)
     stackView.addArrangedSubview(label)
     stackView.addArrangedSubview(imageView)
+
+    imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
 
     NSLayoutConstraint.activate([
       button.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
@@ -75,7 +81,7 @@ class DummyNSView: NSView {
     NSLayoutConstraint.activate([
       stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-      stackView.topAnchor.constraint(greaterThanOrEqualTo: button.bottomAnchor, constant: 8),
+      stackView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 8),
       stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
     ])
   }
