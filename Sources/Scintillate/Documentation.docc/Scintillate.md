@@ -1,7 +1,7 @@
 # ``Scintillate``
 
-A UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
-modifier, for non-SwiftUI applications.
+A lightweight, UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
+modifier, for non-SwiftUI applications on iOS + macOS.
 
 ## Usage
 

@@ -1,7 +1,7 @@
 # Scintillate
 
-A UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
-modifier, for non-SwiftUI applications.
+A lightweight, UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
+modifier, for non-SwiftUI applications on iOS + macOS.
 
 ## Internal implementation
 
@@ -9,7 +9,13 @@ You can look through the code, but tl;dr, the effect is recursively applied as a
 use of ``CAGradientLayer`` and ``CAAnimation`` depending on your settings). These layers should be removed
 automatically for you when the effect is shut down.
  
-(* _Note: 'per subview' here refers to the absolute bottoms of the view hierarchy. I.e., thinking of it as a tree data structure, the effect will only be applied to leaves._)
+(* _Note: 'per subview' here refers to the absolute bottoms of the view hierarchy. I.e., thinking of it as a tree data structure, 
+the effect will only be applied to leaves._)
+
+### Also...
+
+I don't have much in the way of AppKit experience, so it may not function as smoothly with `NSView`s as it does for `UIView`s. 
+Let me know if anything pops up there.
 
 ## Usage
 
