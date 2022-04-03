@@ -25,5 +25,5 @@ import Foundation
   func dull()
 
   /// Apply a new ``ShinyLayer``.
-  func theShining()
+  func theShining(with settings: ScintillateSettings)
 }

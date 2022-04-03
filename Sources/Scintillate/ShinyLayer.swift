@@ -23,14 +23,20 @@ struct ShinyLayer {
   #if os(iOS)
   weak var owner: UIView?
 
-  init(owner: UIView) {
+  init(owner: UIView, settings: ScintillateSettings) {
     self.owner = owner
 
-    theMask = CALayer()
+    theMask = settings.isGradient ? CAGradientLayer() : CALayer()
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
-    theMask.backgroundColor = UIColor.defaultShine.cgColor
+
+    if settings.isGradient {
+      let colors = [settings.primaryColor, settings.secondaryColor]
+      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0?.cgColor })
+    } else {
+      theMask.backgroundColor = settings.primaryColor.cgColor
+    }
   }
 
   func updateLayout() {
@@ -42,14 +48,20 @@ struct ShinyLayer {
   #if os(macOS)
   weak var owner: NSView?
 
-  init(owner: NSView) {
+  init(owner: NSView, settings: ScintillateSettings) {
     self.owner = owner
 
-    theMask = CALayer()
+    theMask = settings.isGradient ? CAGradientLayer() : CALayer()
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
-    theMask.backgroundColor = NSColor.defaultShine.cgColor
+
+    if settings.isGradient {
+      let colors = [settings.primaryColor, settings.secondaryColor]
+      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0?.cgColor })
+    } else {
+      theMask.backgroundColor = settings.primaryColor.cgColor
+    }
   }
 
   func updateLayout() {

@@ -55,11 +55,15 @@ extension UIView: Scintillatable {
     return true
   }
 
-  public func theShining() {
-    let newShinyLayer = ShinyLayer(owner: self)
+  public func theShining(with settings: ScintillateSettings) {
+    let newShinyLayer = ShinyLayer(owner: self, settings: settings)
     currentShinyLayer = newShinyLayer
 
     layer.insertSublayer(newShinyLayer.theMask, at: .max)
+
+    if settings.shouldAnimate {
+      anime(settings: settings)
+    }
   }
 
   public func dull() {
@@ -68,6 +72,8 @@ extension UIView: Scintillatable {
     currentShinyLayer = nil
   }
 }
+
+// MARK: - Helpers
 
 extension UIView {
   var scintillatingBounds: CGRect {
@@ -98,9 +104,57 @@ extension UIView {
   var widthConstraints: [NSLayoutConstraint] {
     constraints.filter { $0.firstAttribute == NSLayoutConstraint.Attribute.width }
   }
+
+  private func anime(settings: ScintillateSettings) {
+    var theAnimation: CAAnimation
+
+    if settings.isGradient {
+      let startAnimation = CABasicAnimation(keyPath: "startPoint")
+      startAnimation.fromValue = CGPoint(x: -1, y: 0.5)
+      startAnimation.toValue = CGPoint(x: 1, y: 0.5)
+      let endAnimation = CABasicAnimation(keyPath: "endPoint")
+      endAnimation.fromValue = CGPoint(x: 0, y: 0.5)
+      endAnimation.toValue = CGPoint(x: 2, y: 0.5)
+
+      let group = CAAnimationGroup()
+      group.animations = [startAnimation, endAnimation]
+      group.duration = 0.75
+      group.repeatCount = HUGE
+      group.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+
+      theAnimation = group
+    } else {
+      let animation = CABasicAnimation(keyPath: "backgroundColor")
+      animation.fromValue = settings.primaryColor
+      animation.toValue = settings.primaryColor.defaultComplement.cgColor
+
+      animation.autoreverses = true
+      animation.duration = 0.75
+      animation.repeatCount = HUGE
+      animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+
+      theAnimation = animation
+    }
+
+    CATransaction.begin()
+    currentShinyLayer?.theMask.add(theAnimation, forKey: "jimCarrey")
+    CATransaction.commit()
+  }
 }
 
 extension UIColor {
+  var defaultComplement: UIColor {
+    let ciColor = CIColor(color: self)
+    let complementR = 1 - ciColor.red
+    let complementG = 1 - ciColor.green
+    let complementB = 1 - ciColor.blue
+
+    return UIColor(red: complementR,
+                   green: complementG,
+                   blue: complementB,
+                   alpha: 1)
+  }
+
   class func color(from hex: String) -> UIColor {
     var colorString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     if colorString.hasPrefix("#") {

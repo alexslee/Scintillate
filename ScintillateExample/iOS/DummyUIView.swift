@@ -21,6 +21,47 @@ class DummyUIView: UIView {
     return stack
   }()
 
+  private lazy var animateSwitch: UIView = {
+    let leSwitch = UISwitch()
+    leSwitch.addTarget(self, action: #selector(sonOfASwitchAnimate), for: .valueChanged)
+    leSwitch.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    let label = UILabel()
+    label.font = .systemFont(ofSize: 10)
+    label.text = "animate"
+    label.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    let stack = UIStackView()
+    stack.axis = .horizontal
+    stack.distribution = .fill
+    stack.addArrangedSubview(label)
+    stack.addArrangedSubview(leSwitch)
+
+    return stack
+  }()
+
+  private lazy var gradientSwitch: UIView = {
+    let leSwitch = UISwitch()
+    leSwitch.addTarget(self, action: #selector(sonOfASwitchGradient), for: .valueChanged)
+    leSwitch.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    let label = UILabel()
+    label.font = .systemFont(ofSize: 10)
+    label.text = "gradient"
+    label.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    let stack = UIStackView()
+    stack.axis = .horizontal
+    stack.distribution = .fill
+    stack.addArrangedSubview(label)
+    stack.addArrangedSubview(leSwitch)
+
+    return stack
+  }()
+
+  private var shouldAnimate = false
+  private var shouldUseGradient = false
+
   required init?(coder: NSCoder) {
     fatalError("wtf coder")
   }
@@ -40,30 +81,60 @@ class DummyUIView: UIView {
     let leButton = UIButton(type: .system)
     leButton.addTarget(self, action: #selector(clapClap), for: .touchUpInside)
     leButton.setTitle("toggle Scintillate", for: .normal)
-    leButton.translatesAutoresizingMaskIntoConstraints = false
 
-    addSubview(leButton)
+    let switchStack = UIStackView()
+    switchStack.axis = .vertical
+    switchStack.distribution = .fill
+
+    let controlStack = UIStackView()
+    controlStack.axis = .horizontal
+    controlStack.distribution = .fill
+    controlStack.translatesAutoresizingMaskIntoConstraints = false
+
+    addSubview(controlStack)
     addSubview(stackView)
+
+    switchStack.addArrangedSubview(animateSwitch)
+    switchStack.addArrangedSubview(gradientSwitch)
+    controlStack.addArrangedSubview(leButton)
+    controlStack.addArrangedSubview(switchStack)
+
     stackView.addArrangedSubview(label)
     stackView.addArrangedSubview(image)
 
     NSLayoutConstraint.activate([
-      leButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-      leButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-      leButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 12),
-      leButton.heightAnchor.constraint(equalToConstant: 52)
+      controlStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+      controlStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+      controlStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8)
     ])
 
     NSLayoutConstraint.activate([
       stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-      stackView.topAnchor.constraint(equalTo: leButton.bottomAnchor),
+      stackView.topAnchor.constraint(equalTo: controlStack.bottomAnchor, constant: 8),
       stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
     ])
   }
 
   @objc private func clapClap() {
-    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView)
+    let settings = ScintillateSettings(
+      shouldAnimate: shouldAnimate,
+      secondaryColor: shouldUseGradient ? .scintillateDefaultShineComplement : nil)
+
+    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+
+    animateSwitch.isUserInteractionEnabled = !Scintillate.isOn
+    animateSwitch.alpha = Scintillate.isOn ? 0.3 : 1
+    gradientSwitch.isUserInteractionEnabled = !Scintillate.isOn
+    gradientSwitch.alpha = Scintillate.isOn ? 0.3 : 1
+  }
+
+  @objc private func sonOfASwitchAnimate(_ sandSwitch: UISwitch) {
+    shouldAnimate = sandSwitch.isOn
+  }
+
+  @objc private func sonOfASwitchGradient(_ sandSwitch: UISwitch) {
+    shouldUseGradient = sandSwitch.isOn
   }
 }
 

@@ -43,6 +43,23 @@ class DummyNSView: NSView {
     return stack
   }()
 
+  private lazy var animateToggle: NSButton = {
+    let leButton = NSButton(checkboxWithTitle: "animate", target: self, action: #selector(sonOfASwitchAnimate))
+    leButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    return leButton
+  }()
+
+  private lazy var gradientToggle: NSButton = {
+    let leButton = NSButton(checkboxWithTitle: "gradient", target: self, action: #selector(sonOfASwitchGradient))
+    leButton.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+    return leButton
+  }()
+
+  private var shouldAnimate = false
+  private var shouldUseGradient = false
+
   init() {
     super.init(frame: .zero)
 
@@ -62,32 +79,52 @@ class DummyNSView: NSView {
     imageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     imageView.translatesAutoresizingMaskIntoConstraints = false
 
-    button.translatesAutoresizingMaskIntoConstraints = false
+    let controlStack = NSStackView()
+    controlStack.orientation = .horizontal
+    controlStack.translatesAutoresizingMaskIntoConstraints = false
 
-    addSubview(button)
+    addSubview(controlStack)
     addSubview(stackView)
+    controlStack.addArrangedSubview(button)
+    controlStack.addArrangedSubview(animateToggle)
+    controlStack.addArrangedSubview(gradientToggle)
     stackView.addArrangedSubview(label)
     stackView.addArrangedSubview(imageView)
 
     imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
 
     NSLayoutConstraint.activate([
-      button.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-      button.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-      button.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-      button.heightAnchor.constraint(equalToConstant: 52)
+      controlStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+      controlStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+      controlStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
     ])
 
     NSLayoutConstraint.activate([
       stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
       stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
       stackView.topAnchor.constraint(equalTo: button.bottomAnchor, constant: 8),
-      stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+      stackView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor)
     ])
   }
 
   @objc private func clapClap() {
-    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView)
+    let settings = ScintillateSettings(
+      shouldAnimate: shouldAnimate,
+      secondaryColor: shouldUseGradient ? .scintillateDefaultShineComplement : nil)
+    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+
+    animateToggle.isEnabled = !Scintillate.isOn
+    animateToggle.alphaValue = Scintillate.isOn ? 0.3 : 1
+    gradientToggle.isEnabled = !Scintillate.isOn
+    gradientToggle.alphaValue = Scintillate.isOn ? 0.3 : 1
+  }
+
+  @objc private func sonOfASwitchAnimate(_ sandSwitch: NSButton) {
+    shouldAnimate = sandSwitch.state == .on
+  }
+
+  @objc private func sonOfASwitchGradient(_ sandSwitch: NSButton) {
+    shouldUseGradient = sandSwitch.state == .on
   }
 }
 

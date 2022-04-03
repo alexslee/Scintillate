@@ -9,27 +9,39 @@ import Foundation
 import os.log
 
 public struct Scintillate {
-  public static var isOn = false
+  /// Externally available indicator of whether the scintillating effect is currently active.
+  public static var isOn: Bool { reallyOn }
 
-  public static func kickStart(in view: Scintillatable) {
+  private static var reallyOn = false
+
+  internal static var showLogs = false
+
+  public static func kickStart(in view: Scintillatable,
+                               with settings: ScintillateSettings = ScintillateSettings()) {
     (view as? ScintillateSwizzlerKebab)?.swizzle()
 
     let parsed = parse(view, apply: {
       $0.dull()
-      $0.theShining()
+      $0.theShining(with: settings)
     })
-    os_log("kickStart parsed: %@", parsed)
 
-    isOn = true
+    if showLogs {
+      os_log("kickStart parsed: %@", parsed)
+    }
+
+    reallyOn = true
   }
 
   public static func shutDown(in view: Scintillatable) {
     (view as? ScintillateSwizzlerKebab)?.deswizzle()
 
     let parsed = parse(view, apply: { $0.dull() })
-    os_log("shutDown parsed: %@", parsed)
 
-    isOn = false
+    if showLogs {
+      os_log("shutDown parsed: %@", parsed)
+    }
+
+    reallyOn = false
   }
 
   @discardableResult

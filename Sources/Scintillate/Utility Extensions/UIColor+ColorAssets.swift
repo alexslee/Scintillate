@@ -16,6 +16,7 @@ extension UIColor {
     return color
   }
 
-  static var defaultShine: UIColor { color(named: "defaultShine") }
+  public static var scintillateDefaultShine: UIColor { color(named: "defaultShine") }
+  public static var scintillateDefaultShineComplement: UIColor { scintillateDefaultShine.defaultComplement }
 }
 #endif
