@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-extension UIView {
+internal extension UIView {
   private struct Constants {
     static var currentShinyLayer = "currentShinyLayer"
   }
 
-  var currentShinyLayer: ShinyLayer? {
+  var currentShinyLayer: ScintillateShinyLayer? {
     get {
-      objc_getAssociatedObject(self, &Constants.currentShinyLayer) as? ShinyLayer
+      objc_getAssociatedObject(self, &Constants.currentShinyLayer) as? ScintillateShinyLayer
     }
     set {
       objc_setAssociatedObject(self, &Constants.currentShinyLayer, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

@@ -1,5 +1,5 @@
 //
-//  ShinyLayer.swift
+//  ScintillateShinyLayer.swift
 //  
 //
 //  Created by Alex Lee on 4/1/22.
@@ -17,7 +17,7 @@ import UIKit
 /**
  Platform-agnostic wrapper to allow for a common interface for views to add/remove `CALayer`.
  */
-struct ShinyLayer {
+struct ScintillateShinyLayer {
   var theMask: CALayer
 
   #if os(iOS)

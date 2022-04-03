@@ -56,7 +56,7 @@ extension UIView: Scintillatable {
   }
 
   public func theShining(with settings: ScintillateSettings) {
-    let newShinyLayer = ShinyLayer(owner: self, settings: settings)
+    let newShinyLayer = ScintillateShinyLayer(owner: self, settings: settings)
     currentShinyLayer = newShinyLayer
 
     layer.insertSublayer(newShinyLayer.theMask, at: .max)
@@ -75,7 +75,7 @@ extension UIView: Scintillatable {
 
 // MARK: - Helpers
 
-extension UIView {
+internal extension UIView {
   var scintillatingBounds: CGRect {
     if let alignment = (superview as? UIStackView)?.alignment {
       var newOrigin = CGPoint.zero
@@ -87,21 +87,21 @@ extension UIView {
   }
 
   private var scintillatingSize: CGSize {
-    let heightFromConstraints = heightConstraints.compactMap({ $0.constant }).max() ?? 0
+    let heightFromConstraints = verticalConstraints.compactMap({ $0.constant }).max() ?? 0
     let height = max(frame.size.height, heightFromConstraints)
     return CGSize(width: scintillatingWidth, height: height)
   }
 
   var scintillatingWidth: CGFloat {
-    let widthFromConstraints = widthConstraints.compactMap({ $0.constant }).max() ?? 0
+    let widthFromConstraints = horizontalConstraints.compactMap({ $0.constant }).max() ?? 0
     return max(frame.size.width, widthFromConstraints)
   }
 
-  var heightConstraints: [NSLayoutConstraint] {
+  var verticalConstraints: [NSLayoutConstraint] {
     constraints.filter { $0.firstAttribute == NSLayoutConstraint.Attribute.height }
   }
 
-  var widthConstraints: [NSLayoutConstraint] {
+  var horizontalConstraints: [NSLayoutConstraint] {
     constraints.filter { $0.firstAttribute == NSLayoutConstraint.Attribute.width }
   }
 

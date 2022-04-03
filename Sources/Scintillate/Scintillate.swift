@@ -12,10 +12,21 @@ public struct Scintillate {
   /// Externally available indicator of whether the scintillating effect is currently active.
   public static var isOn: Bool { reallyOn }
 
+  /// Internal tracker of whether the scintillating effect is currently active.
   private static var reallyOn = false
 
+  /// Set this to true to view debug logs.
   internal static var showLogs = false
 
+  /**
+   Adds the scintillating effect to the subviews of the provided view.
+
+   - Parameters:
+     - view: the root view whose subviews are recursively parsed out, for the purpose of applying the
+       scintillating effect.
+     - settings: Any custom settings you wish to apply to this given scintillate effect. See ``ScintillateSettings``
+       for more info.
+   */
   public static func kickStart(in view: Scintillatable,
                                with settings: ScintillateSettings = ScintillateSettings()) {
     (view as? ScintillateSwizzlerKebab)?.swizzle()
@@ -32,6 +43,13 @@ public struct Scintillate {
     reallyOn = true
   }
 
+  /**
+   Ends the scintillating effect of the subviews in the provided view.
+
+   - Parameters:
+     - view: the root view whose subviews are recursively parsed out, for the purpose of removing the
+       scintillating effect.
+   */
   public static func shutDown(in view: Scintillatable) {
     (view as? ScintillateSwizzlerKebab)?.deswizzle()
 
@@ -44,6 +62,7 @@ public struct Scintillate {
     reallyOn = false
   }
 
+  /// s/o for already implementing this recursion in [DesignReviewer](https://github.com/alexslee/DesignReviewer/)...
   @discardableResult
   internal static func parse(_ view: Scintillatable, apply: ((Scintillatable) -> Void)?) -> [Scintillatable] {
     var newScintillatables = [Scintillatable]()

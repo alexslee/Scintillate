@@ -1,4 +1,4 @@
-# Scintillate
+# ``Scintillate``
 
 A UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
 modifier, for non-SwiftUI applications.
@@ -34,18 +34,4 @@ will be interpreted as a gradient).
 
 A static property `isOn` on `Scintillate` informs you whether any scintillating effect is currently active. 
 Note: support for multiple scintillate effects being kickstarted + shutdown is not yet in place. It might 
-work for multiple `kickStart`s, but a single `shutDown` will set the global `isOn` to false. 
-
-## Internal implementation
-
-You can look through the code, but tl;dr, the effect is recursively applied as a ``CALayer`` per view (with optional
-use of ``CAGradientLayer`` and ``CAAnimation`` depending on your settings). These layers should be removed
-automatically for you when the effect is shut down.
-
-## TODOs:
-
-- [x] Check tablet appearance + fix rotation behaviour
-- [x] Make color customizable
-- [x] Actually make them shiny (read: animate the layers)
-- [ ] Look into properly allowing multiple starts + stops of individual scintillating effects
-- [ ] All the bugfixes
+work for multiple `kickStart`s, but a single `shutDown` will set the global `isOn` to false.
