@@ -9,12 +9,6 @@ import Foundation
 import os.log
 
 public struct Scintillate {
-  /// Externally available indicator of whether the scintillating effect is currently active.
-  public static var isOn: Bool { reallyOn }
-
-  /// Internal tracker of whether the scintillating effect is currently active.
-  private static var reallyOn = false
-
   /// Set this to true to view debug logs.
   internal static var showLogs = false
 
@@ -39,8 +33,6 @@ public struct Scintillate {
     if showLogs {
       os_log("kickStart parsed: %@", parsed)
     }
-
-    reallyOn = true
   }
 
   /**
@@ -58,8 +50,6 @@ public struct Scintillate {
     if showLogs {
       os_log("shutDown parsed: %@", parsed)
     }
-
-    reallyOn = false
   }
 
   /// s/o for already implementing this recursion in [DesignReviewer](https://github.com/alexslee/DesignReviewer/)...

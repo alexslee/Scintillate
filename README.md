@@ -30,12 +30,6 @@ This can be done via a ``ScintillateSettings`` that you may construct and pass i
 It allows you to enable animation (default is off), and customize a color (if you provide a secondary color, it
 will be interpreted as a gradient). 
 
-### Detecting Scintillate active status
-
-A static property `isOn` on `Scintillate` informs you whether any scintillating effect is currently active. 
-Note: support for multiple scintillate effects being kickstarted + shutdown is not yet in place. It might 
-work for multiple `kickStart`s, but a single `shutDown` will set the global `isOn` to false. 
-
 ## Internal implementation
 
 You can look through the code, but tl;dr, the effect is recursively applied as a ``CALayer`` per view (with optional
@@ -47,5 +41,4 @@ automatically for you when the effect is shut down.
 - [x] Check tablet appearance + fix rotation behaviour
 - [x] Make color customizable
 - [x] Actually make them shiny (read: animate the layers)
-- [ ] Look into properly allowing multiple starts + stops of individual scintillating effects
 - [ ] All the bugfixes

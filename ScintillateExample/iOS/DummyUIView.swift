@@ -61,6 +61,7 @@ class DummyUIView: UIView {
 
   private var shouldAnimate = false
   private var shouldUseGradient = false
+  private var isScintillateOn = false
 
   required init?(coder: NSCoder) {
     fatalError("wtf coder")
@@ -121,12 +122,13 @@ class DummyUIView: UIView {
       shouldAnimate: shouldAnimate,
       secondaryColor: shouldUseGradient ? .scintillateDefaultShineComplement : nil)
 
-    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+    isScintillateOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+    isScintillateOn.toggle()
 
-    animateSwitch.isUserInteractionEnabled = !Scintillate.isOn
-    animateSwitch.alpha = Scintillate.isOn ? 0.3 : 1
-    gradientSwitch.isUserInteractionEnabled = !Scintillate.isOn
-    gradientSwitch.alpha = Scintillate.isOn ? 0.3 : 1
+    animateSwitch.isUserInteractionEnabled = !isScintillateOn
+    animateSwitch.alpha = isScintillateOn ? 0.3 : 1
+    gradientSwitch.isUserInteractionEnabled = !isScintillateOn
+    gradientSwitch.alpha = isScintillateOn ? 0.3 : 1
   }
 
   @objc private func sonOfASwitchAnimate(_ sandSwitch: UISwitch) {

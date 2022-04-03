@@ -29,9 +29,3 @@ To turn the effect off, simply call `shutDown` on the same view:
 This can be done via a ``ScintillateSettings`` that you may construct and pass into the `kickStart` method.
 It allows you to enable animation (default is off), and customize a color (if you provide a secondary color, it
 will be interpreted as a gradient). 
-
-### Detecting Scintillate active status
-
-A static property `isOn` on `Scintillate` informs you whether any scintillating effect is currently active. 
-Note: support for multiple scintillate effects being kickstarted + shutdown is not yet in place. It might 
-work for multiple `kickStart`s, but a single `shutDown` will set the global `isOn` to false.

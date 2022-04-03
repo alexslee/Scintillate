@@ -59,6 +59,7 @@ class DummyNSView: NSView {
 
   private var shouldAnimate = false
   private var shouldUseGradient = false
+  private var isScintillateOn = false
 
   init() {
     super.init(frame: .zero)
@@ -111,12 +112,13 @@ class DummyNSView: NSView {
     let settings = ScintillateSettings(
       shouldAnimate: shouldAnimate,
       secondaryColor: shouldUseGradient ? .scintillateDefaultShineComplement : nil)
-    Scintillate.isOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+    isScintillateOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
+    isScintillateOn.toggle()
 
-    animateToggle.isEnabled = !Scintillate.isOn
-    animateToggle.alphaValue = Scintillate.isOn ? 0.3 : 1
-    gradientToggle.isEnabled = !Scintillate.isOn
-    gradientToggle.alphaValue = Scintillate.isOn ? 0.3 : 1
+    animateToggle.isEnabled = !isScintillateOn
+    animateToggle.alphaValue = isScintillateOn ? 0.3 : 1
+    gradientToggle.isEnabled = !isScintillateOn
+    gradientToggle.alphaValue = isScintillateOn ? 0.3 : 1
   }
 
   @objc private func sonOfASwitchAnimate(_ sandSwitch: NSButton) {
