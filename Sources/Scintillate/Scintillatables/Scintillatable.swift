@@ -21,9 +21,9 @@ import Foundation
   /// Whether the object is visible on screen.
   var isOnScreen: Bool { get }
 
-  /// Remove the current ``ShinyLayer``, if one exists.
+  /// Remove the current ``ScintillateShinyLayer``, if one exists.
   func dull()
 
-  /// Apply a new ``ShinyLayer``.
+  /// Apply a new ``ScintillateShinyLayer``.
   func theShining(with settings: ScintillateSettings)
 }

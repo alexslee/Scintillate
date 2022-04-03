@@ -13,7 +13,7 @@ public struct Scintillate {
   internal static var showLogs = false
 
   /**
-   Adds the scintillating effect to the subviews of the provided view.
+   Adds the scintillating effect to the subviews of the provided view. For each subview, prior to applying the effect, this method removes an existing one if present.
 
    - Parameters:
      - view: the root view whose subviews are recursively parsed out, for the purpose of applying the
