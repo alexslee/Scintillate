@@ -49,4 +49,6 @@ will be interpreted as a gradient).
 - [x] Check tablet appearance + fix rotation behaviour
 - [x] Make color customizable
 - [x] Actually make them shiny (read: animate the layers)
+- [ ] Add more options for customization (maybe)
+- [ ] Refine animation speed (and maybe make customizable ^)
 - [ ] All the bugfixes
