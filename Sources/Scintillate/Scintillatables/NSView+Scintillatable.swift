@@ -131,7 +131,7 @@ internal extension NSView {
     }
 
     CATransaction.begin()
-    currentShinyLayer?.theMask.add(theAnimation, forKey: "jimCarrey")
+    currentShinyLayer?.theMask.add(theAnimation, forKey: ScintillateShinyLayer.animationKey)
     CATransaction.commit()
   }
 }

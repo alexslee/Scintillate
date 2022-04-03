@@ -3,6 +3,14 @@
 A UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
 modifier, for non-SwiftUI applications.
 
+## Internal implementation
+
+You can look through the code, but tl;dr, the effect is recursively applied as a ``CALayer`` per subview* (with optional
+use of ``CAGradientLayer`` and ``CAAnimation`` depending on your settings). These layers should be removed
+automatically for you when the effect is shut down.
+ 
+(* _Note: 'per subview' here refers to the absolute bottoms of the view hierarchy. I.e., thinking of it as a tree data structure, the effect will only be applied to leaves._)
+
 ## Usage
 
 ### Setup
@@ -29,12 +37,6 @@ To turn the effect off, simply call `shutDown` on the same view:
 This can be done via a ``ScintillateSettings`` that you may construct and pass into the `kickStart` method.
 It allows you to enable animation (default is off), and customize a color (if you provide a secondary color, it
 will be interpreted as a gradient). 
-
-## Internal implementation
-
-You can look through the code, but tl;dr, the effect is recursively applied as a ``CALayer`` per view (with optional
-use of ``CAGradientLayer`` and ``CAAnimation`` depending on your settings). These layers should be removed
-automatically for you when the effect is shut down.
 
 ## TODOs:
 

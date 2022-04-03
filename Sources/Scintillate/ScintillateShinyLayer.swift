@@ -18,6 +18,7 @@ import UIKit
  Platform-agnostic wrapper to allow for a common interface for views to add/remove `CALayer`.
  */
 struct ScintillateShinyLayer {
+  static let animationKey = "jimCarrey"
   var theMask: CALayer
 
   #if os(iOS)
@@ -71,6 +72,7 @@ struct ScintillateShinyLayer {
   #endif
 
   func stripFromParent() {
+    theMask.removeAnimation(forKey: Self.animationKey)
     theMask.removeFromSuperlayer()
   }
 }
