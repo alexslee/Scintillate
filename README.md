@@ -1,5 +1,8 @@
 # Scintillate
 
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Falexslee%2FScintillate%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/alexslee/Scintillate) [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Falexslee%2FScintillate%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/alexslee/Scintillate)
+
+
 A lightweight, UIKit+AppKit-friendly way to either mask content, or show a loading state. Think: SwiftUI's 'redacted'
 modifier, for non-SwiftUI applications on iOS + macOS.
 
