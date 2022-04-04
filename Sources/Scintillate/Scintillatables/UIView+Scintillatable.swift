@@ -108,7 +108,7 @@ internal extension UIView {
   private func anime(settings: ScintillateSettings) {
     var theAnimation: CAAnimation
 
-    if settings.isGradient {
+    if settings.shouldUseGradient {
       let startAnimation = CABasicAnimation(keyPath: "startPoint")
       startAnimation.fromValue = CGPoint(x: -1, y: 0.5)
       startAnimation.toValue = CGPoint(x: 1, y: 0.5)
@@ -118,7 +118,7 @@ internal extension UIView {
 
       let group = CAAnimationGroup()
       group.animations = [startAnimation, endAnimation]
-      group.duration = 0.75
+      group.duration = ScintillateShinyLayer.animationDuration
       group.repeatCount = HUGE
       group.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 
@@ -126,10 +126,10 @@ internal extension UIView {
     } else {
       let animation = CABasicAnimation(keyPath: "backgroundColor")
       animation.fromValue = settings.primaryColor
-      animation.toValue = settings.primaryColor.defaultComplement.cgColor
+      animation.toValue = settings.secondaryColor?.cgColor ?? settings.primaryColor.defaultComplement.cgColor
 
       animation.autoreverses = true
-      animation.duration = 0.75
+      animation.duration = ScintillateShinyLayer.animationDuration
       animation.repeatCount = HUGE
       animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
 
@@ -153,27 +153,6 @@ extension UIColor {
                    green: complementG,
                    blue: complementB,
                    alpha: 1)
-  }
-
-  class func color(from hex: String) -> UIColor {
-    var colorString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-    if colorString.hasPrefix("#") {
-      colorString.remove(at: colorString.startIndex)
-    }
-
-    if colorString.count != 6 {
-      return UIColor.gray
-    }
-
-    var rgbValue: UInt64 = 0
-    Scanner(string: colorString).scanHexInt64(&rgbValue)
-
-    return UIColor(
-      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-      alpha: CGFloat(1.0)
-    )
   }
 }
 #endif

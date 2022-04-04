@@ -120,7 +120,8 @@ class DummyUIView: UIView {
   @objc private func clapClap() {
     let settings = ScintillateSettings(
       shouldAnimate: shouldAnimate,
-      secondaryColor: shouldUseGradient ? .scintillateDefaultShineComplement : nil)
+      shouldUseGradient: shouldUseGradient,
+      secondaryColor: .scintillateDefaultShineComplement)
 
     isScintillateOn ? Scintillate.shutDown(in: stackView) : Scintillate.kickStart(in: stackView, with: settings)
     isScintillateOn.toggle()

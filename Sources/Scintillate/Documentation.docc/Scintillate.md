@@ -27,5 +27,6 @@ To turn the effect off, simply call `shutDown` on the same view:
 ### Customizing the effect
 
 This can be done via a ``ScintillateSettings`` that you may construct and pass into the `kickStart` method.
-It allows you to enable animation (default is off), and customize a color (if you provide a secondary color, it
-will be interpreted as a gradient). 
+It allows you to enable animation (default is off), render the mask as a gradient, and customize a color (if you
+choose to animate and/or make the mask a gradient without specifying a secondary color, one will be interpreted
+based on the primary color).

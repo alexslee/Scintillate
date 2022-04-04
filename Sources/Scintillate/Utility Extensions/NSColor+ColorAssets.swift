@@ -19,6 +19,6 @@ extension NSColor {
   /// The default color applied to the scintillating effect.
   public static var scintillateDefaultShine: NSColor { color(named: "defaultShine") }
   /// The complement of the default color applied to the scintillating effect.
-  public static var scintillateDefaultShineComplement: NSColor { scintillateDefaultShine.defaultComplement }
+  public static var scintillateDefaultShineComplement: NSColor { color(named: "defaultShineHighlight") }
 }
 #endif

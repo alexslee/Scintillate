@@ -19,6 +19,8 @@ import UIKit
  */
 struct ScintillateShinyLayer {
   static let animationKey = "jimCarrey"
+  static let animationDuration: CGFloat = 0.75
+
   var theMask: CALayer
 
   #if os(iOS)
@@ -27,14 +29,14 @@ struct ScintillateShinyLayer {
   init(owner: UIView, settings: ScintillateSettings) {
     self.owner = owner
 
-    theMask = settings.isGradient ? CAGradientLayer() : CALayer()
+    theMask = settings.shouldUseGradient ? CAGradientLayer() : CALayer()
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
 
-    if settings.isGradient {
-      let colors = [settings.primaryColor, settings.secondaryColor]
-      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0?.cgColor })
+    if settings.shouldUseGradient {
+      let colors = [settings.primaryColor, settings.secondaryColor ?? settings.primaryColor.defaultComplement]
+      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0.cgColor })
     } else {
       theMask.backgroundColor = settings.primaryColor.cgColor
     }
@@ -52,14 +54,14 @@ struct ScintillateShinyLayer {
   init(owner: NSView, settings: ScintillateSettings) {
     self.owner = owner
 
-    theMask = settings.isGradient ? CAGradientLayer() : CALayer()
+    theMask = settings.shouldUseGradient ? CAGradientLayer() : CALayer()
     theMask.anchorPoint = .zero
     theMask.bounds = owner.scintillatingBounds
     theMask.cornerRadius = 8
 
-    if settings.isGradient {
-      let colors = [settings.primaryColor, settings.secondaryColor]
-      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0?.cgColor })
+    if settings.shouldUseGradient {
+      let colors = [settings.primaryColor, settings.secondaryColor ?? settings.primaryColor.defaultComplement]
+      (theMask as? CAGradientLayer)?.colors = colors.compactMap({ $0.cgColor })
     } else {
       theMask.backgroundColor = settings.primaryColor.cgColor
     }
